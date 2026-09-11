@@ -1,0 +1,8 @@
+{
+  "name": "garbo",
+  "version": "1.0.0",
+  "description": "University-based waste management and student engagement web application.",
+  "private": true,
+  "scripts": {},
+  "license": "ISC"
+}
