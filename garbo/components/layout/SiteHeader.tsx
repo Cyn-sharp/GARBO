@@ -81,7 +81,7 @@ export function SiteHeader() {
         </nav>
 
         <Button href={ROUTES.login} size="sm">
-          Open the app
+          Login
         </Button>
       </Container>
     </header>
