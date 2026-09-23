@@ -1,45 +1,95 @@
-import { Section } from "@/components/ui/Section";
-import { POINTS } from "@/lib/constants";
-import { RouteSteps, type RouteStep } from "./RouteSteps";
+"use client";
 
-const STEPS: RouteStep[] = [
+import { Container } from "@/components/ui/Container";
+import { TiltCard } from "@/components/ui/TiltCard";
+import { Parallax } from "@/components/ui/Parallax";
+import { IconMapPin, IconScan, IconRecycle, IconGift } from "@/components/ui/Icons";
+
+const STEPS = [
   {
-    title: "Scan the item",
-    body: "Take a photo. GARBO names the item and tells you which waste stream it belongs to.",
-    chip: "Clear iced plastic cup, 99% confident",
-    tone: "neutral",
+    step: "01",
+    Icon: IconMapPin,
+    title: "Find a Smart Bin",
+    desc: "Locate any GARBO-enabled bin around CIT-U (GLE Building, NGE, Main Lobby, Library, or Wildcat Canteen).",
+    parallaxSpeed: -0.06,
   },
   {
-    title: "Follow the map to the right bin",
-    body: "The campus map shows the closest bin that accepts that stream, and how long it takes to walk there.",
-    chip: "Station #024, 18 m away",
-    tone: "neutral",
+    step: "02",
+    Icon: IconScan,
+    title: "Scan the Bin QR",
+    desc: "Open GARBO on your phone, tap 'Scan Bin', and frame the QR code on the compartment lid.",
+    parallaxSpeed: 0.08,
   },
   {
-    title: "Scan the QR code on the bin",
-    body: "Every bin has its own code. Scanning it proves you were there and used the right one.",
-    chip: "Station #024 verified",
-    tone: "success",
+    step: "03",
+    Icon: IconRecycle,
+    title: "Dispose Correctly",
+    desc: "Drop your plastic bottle, cup, or clean paper. The bin verifies the disposal weight and sorting.",
+    parallaxSpeed: -0.04,
   },
   {
-    title: "Collect your points",
-    body: "Points, streak days, and mission progress update the moment your disposal is confirmed.",
-    chip: `+${POINTS.DISPOSAL} pts`,
-    tone: "points",
+    step: "04",
+    Icon: IconGift,
+    title: "Get Instant Points",
+    desc: "Your personal points update instantly, adding points to your College team score for the Wildcat Cup!",
+    parallaxSpeed: 0.09,
   },
 ];
 
 export function HowItWorks() {
   return (
-    <Section id="how" className="grid gap-9 lg:grid-cols-[5fr_7fr] lg:gap-18">
-      <div className="lg:sticky lg:top-24 lg:self-start">
-        <h2>From trash to points in four steps</h2>
-        <p className="mt-5 max-w-[52ch] text-lg text-soft">
-          You never have to memorize the sorting rules. GARBO handles the guessing, and the bin’s own
-          QR code confirms you did it.
-        </p>
-      </div>
-      <RouteSteps steps={STEPS} />
-    </Section>
+    <section id="how" className="relative py-16 md:py-24">
+      {/* Background Subtle Accent */}
+      <Parallax speed={0.2} className="pointer-events-none absolute top-10 left-10 -z-10">
+        <div className="h-56 w-56 rounded-full bg-saffron/10 blur-2xl" />
+      </Parallax>
+
+      <Container>
+        <div className="mx-auto max-w-2xl text-center">
+          <Parallax speed={-0.05}>
+            <span className="text-xs font-bold uppercase tracking-widest text-tangerine">
+              Quick & Simple
+            </span>
+            <h2 className="mt-2 text-2xl font-black text-ink sm:text-4xl">
+              How to Use GARBO on Campus
+            </h2>
+            <p className="mt-3 text-sm text-body sm:text-base">
+              No long tutorials needed. Dispose your waste properly between classes and earn rewards in seconds.
+            </p>
+          </Parallax>
+        </div>
+
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {STEPS.map((s) => {
+            const Icon = s.Icon;
+            return (
+              <Parallax key={s.step} speed={s.parallaxSpeed} className="h-full">
+                <TiltCard
+                  maxTilt={10}
+                  className="group h-full rounded-2xl border border-line bg-surface/90 p-6 shadow-sm hover:border-saffron hover:shadow-xl hover:shadow-garnet/10"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-tint text-garnet transition-transform duration-300 group-hover:scale-110 group-hover:text-saffron">
+                      <Icon size={24} />
+                    </span>
+                    <span className="text-3xl font-black text-line transition-colors duration-300 group-hover:text-saffron">
+                      {s.step}
+                    </span>
+                  </div>
+                  <h3 className="mt-5 text-base font-bold text-ink transition-colors group-hover:text-garnet">
+                    {s.title}
+                  </h3>
+                  <p className="mt-2 text-xs leading-relaxed text-soft">
+                    {s.desc}
+                  </p>
+                </TiltCard>
+              </Parallax>
+            );
+          })}
+        </div>
+      </Container>
+    </section>
   );
 }
+
+export default HowItWorks;

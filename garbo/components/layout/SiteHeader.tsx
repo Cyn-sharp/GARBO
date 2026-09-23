@@ -9,16 +9,14 @@ import { ROUTES } from "@/lib/constants";
 import { cn } from "@/lib/cn";
 
 const LINKS = [
-  { id: "how", href: "#how", label: "How it works" },
-  { id: "compete", href: "#compete", label: "Green Cup" },
+  { id: "how", href: "#how", label: "How to Scan" },
+  { id: "compete", href: "#compete", label: "Wildcat Cup" },
   { id: "rewards", href: "#rewards", label: "Rewards" },
-  { id: "campus", href: "#campus", label: "For campuses" },
+  { id: "locations", href: "#locations", label: "Bin Map" },
 ];
 
-// every section id we watch (hero + final CTA clear the highlight)
-const WATCH = ["top", "how", "compete", "rewards", "campus", "start"];
+const WATCH = ["top", "how", "compete", "rewards", "locations", "start"];
 
-/** Marketing header: gains a shadow on scroll and highlights the section you're in. */
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("");
@@ -48,17 +46,25 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-10 border-b pt-safe backdrop-blur-md transition-[box-shadow,background-color,border-color] duration-300",
+        "sticky top-0 z-50 border-b pt-safe backdrop-blur-xl transition-[box-shadow,background-color,border-color] duration-300",
         scrolled
-          ? "border-line bg-bg/90 shadow-[0_10px_30px_-18px_rgba(58,16,16,.45)]"
+          ? "border-line bg-surface/90 shadow-[0_10px_25px_-12px_rgba(151,40,40,0.18)]"
           : "border-transparent bg-bg/70",
       )}
     >
       <Container className="flex h-16 items-center justify-between gap-4">
-        <Link href="/" aria-label="GARBO home">
+        <Link 
+          href="/" 
+          aria-label="GARBO CIT-U home" 
+          className="group flex items-center gap-2 transition-transform duration-200 hover:scale-105 active:scale-95"
+        >
           <Logo />
+          <span className="hidden rounded-full border border-garnet/30 bg-garnet/10 px-2 py-0.5 text-[11px] font-black text-garnet transition-colors group-hover:bg-garnet group-hover:text-white sm:inline-block">
+            CIT-U
+          </span>
         </Link>
 
+        {/* Desktop Navigation */}
         <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
           {LINKS.map((l) => {
             const isActive = active === l.id;
@@ -68,10 +74,11 @@ export function SiteHeader() {
                 href={l.href}
                 aria-current={isActive ? "location" : undefined}
                 className={cn(
-                  "relative rounded-lg px-3 py-2 text-[.9375rem] font-medium transition-colors duration-200 after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:rounded-full after:transition-transform after:duration-300 hover:text-ink hover:after:scale-x-100",
+                  "relative rounded-lg px-3 py-1.5 text-sm font-semibold transition-all duration-200",
+                  "after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:origin-left after:rounded-full after:transition-transform after:duration-300",
                   isActive
-                    ? "text-ink after:scale-x-100 after:bg-brand"
-                    : "text-soft after:scale-x-0 after:bg-tangerine",
+                    ? "text-garnet after:scale-x-100 after:bg-saffron"
+                    : "text-soft hover:text-garnet hover:bg-tint after:scale-x-0 after:bg-garnet hover:after:scale-x-100",
                 )}
               >
                 {l.label}
@@ -80,9 +87,22 @@ export function SiteHeader() {
           })}
         </nav>
 
-        <Button href={ROUTES.login} size="sm">
-          Login
-        </Button>
+        {/* Action Buttons */}
+        <div className="flex items-center gap-2">
+          <Link
+            href={ROUTES.login ?? "/login"}
+            className="rounded-xl px-3.5 py-2 text-sm font-bold text-garnet transition-all duration-200 hover:bg-garnet/10 hover:shadow-inner active:scale-95"
+          >
+            Log In
+          </Link>
+          <Button
+            href={ROUTES.register ?? "/register"}
+            size="sm"
+            className="rounded-xl bg-garnet px-4 py-2 text-xs font-bold text-white shadow-md shadow-garnet/30 transition-all duration-200 hover:bg-[#7e1f1f] hover:shadow-lg hover:shadow-garnet/40 active:scale-95 sm:text-sm"
+          >
+            Sign Up
+          </Button>
+        </div>
       </Container>
     </header>
   );
